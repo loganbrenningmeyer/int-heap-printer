@@ -7,7 +7,7 @@ void printHeap(int *array, int size);
 
 int main(void) {
     srand(time(NULL));
-    int size = 31;
+    int size = rand() % 64;
 
     int array[size];
     for (int i = 0; i < size; i++) {
