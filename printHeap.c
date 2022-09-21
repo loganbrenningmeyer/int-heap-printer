@@ -3,7 +3,6 @@
 int getLength(int number) {
     char numStr[11];
     sprintf(numStr, "%d", number);
-    //printf("%ld", strlen(numStr));
     return strlen(numStr);
 }
 
@@ -23,25 +22,21 @@ int getFromLeft(int row) {
 void printHeap(int *array, int size) {
     //height of heap (0...n = height)
     int height = (int)log2((double)size);
-    //initialize spaces leftmost node away from left
-    int fromLeft = 5;
-    for (int i = 0; i < height-2; i++) {
-        fromLeft = fromLeft*2 + 2;
-    }
+    //Print non-leaf nodes
     for (int i = 0; i < height; i++) {
         printNodes(array, height, height-i, size);
         printSlashes(height, height-i, size);
     }
+    //Print leaf nodes
     printNodes(array, height, 0, size);
 }
 
 //array[(int)pow(2, height - row) - 1 + i] way to index array through row
-
 void printNodes(int *array, int height, int row, int size) {
     int spaceWidth = 0;
 
     if (row != 0) printf("%*c", getFromLeft(row), ' ');
-    for (int i = 0; i < pow(2, height - row); i++) {
+    for (int i = 0; i < pow(2, height - row); i++) {    
         //if not all leaf nodes full, break
         if ((int)pow(2, height - row) - 1 + i >= size) break;
         printf("%d", array[(int)pow(2, height - row) - 1 + i]);
@@ -116,7 +111,7 @@ void printSlashes(int height, int row, int size) {
             printf("\n");
             return;
         } else {
-            printf(" "); //one space
+            printf(" ");
             printf("/ \\");
             printf("\n");
             return;
@@ -137,135 +132,3 @@ void printSlashes(int height, int row, int size) {
         printf("\n");
     }
 }
-
-/*
-Row 4:
-- From Left: 26
-- Between Children: 27
-- Between Inner Pairs:
-- Between Outer Pairs:
-- Lines to: 13
-
-Row 3:
-- From Left: 12
-- Between Children: 13
-- Between Inner Pairs: 27
-- Between Outer Pairs: 
-- Lines to: 6
-
-Row 2:
-- From Left: 5
-- Between Children: 5
-- Between Inner Pairs: 13
-- Between Outer Pairs: 13
-- Lines to: 2
-
-Row 1:
-- From Left: 2
-- Between Children: 3
-- Between Inner Pairs: 5
-- Between Outer Pairs: 7
-- Lines to: 1
-
-Row 0:
-- From Left: 0
-- Between Children: 0
-- Between Inner Pairs: 3
-- Between Outer Pairs: 1
-- Lines to: 
-                                                            54  5*8 + 2*(4+2) + 2
-
-                          4[0]                                 26  5*4 + 2*2 + 2
-                         / \                                       
-                        /   \                                   
-                       /     \                    
-                      /       \                   
-                     /         \    
-                    /           \
-                   /             \
-                  /               \
-                 /                 \
-                /                   \
-               /                     \
-              /                       \                
-             /                         \
-            3[1]                        3[2]                   12  5*2 + 2
-           / \                         / \                    
-          /   \                       /   \
-         /     \                     /     \
-        /       \                   /       \
-       /         \                 /         \
-      /           \               /           \
-     2[3]          2[4]          2[5]          2[6]            5  5*1 + 0
-    / \           / \           / \           / \ 
-   /   \         /   \         /   \         /   \
-  1[7]  1[8]    1[9]  1[10]   1[11] 1[12]   1[13] 1[14]        2
- / \   / \     / \   / \     / \   / \     / \   / \
-0[15]0 0   0   0   0 0   0   0   0 0   0   0   0 0   0       0 
-
-  5  11    25            53
-
-  1  2     3             4
-
-  1 2 6 13 27
-
-                                                                                         
-                                                      5                                       
-                                                     / \                       
-                                                    /   \                    
-                                                   /     \                   
-                                                  /       \    
-                                                 /         \
-                                                /           \
-                                               /             \
-                                              /               \
-                                             /                 \
-                                            /                   \
-                                           /                     \                
-                                          /                       \
-                                         /                         \
-                                        /                           \
-                                       /                             \
-                                      /                               \
-                                     /                                 \
-                                    /                                   \
-                                   /                                     \
-                                  /                                       \
-                                 /                                         \
-                                /                                           \
-                               /                                             \
-                              /                                               \
-                             /                                                 \
-                            /                                                   \ 
-                           /                                                     \
-                          4                                                       4
-                         / \                                                     / \                                                                                           
-                        /   \                                                   /   \                      
-                       /     \                                                 /     \                  
-                      /       \                                               /       \                     
-                     /         \                                             /         \ 
-                    /           \                                           /           \
-                   /             \                                         /             \
-                  /               \                                       /               \
-                 /                 \                                     /                 \
-                /                   \                                   /                   \
-               /                     \                                 /                     \
-              /                       \                               /                       \              
-             /                         \                             /                         \
-            3                           3                           3                           3         
-           / \                         / \                         / \                         / \                    
-          /   \                       /   \                       /   \                       /   \
-         /     \                     /     \                     /     \                     /     \
-        /       \                   /       \                   /       \                   /       \
-       /         \                 /         \                 /         \                 /         \
-      /           \               /           \               /           \               /           \
-     2             2             2             2             2             2             2             2
-    / \           / \           / \           / \           / \           / \           / \           / \ 
-   /   \         /   \         /   \         /   \         /   \         /   \         /   \         /   \
-  1     1       1     1       1     1       1     1       1     1       1     1       1     1       1     1
- / \   / \     / \   / \     / \   / \     / \   / \     / \   / \     / \   / \     / \   / \     / \   / \
-0   0 0   0   0   0 0   0   0   0 0   0   0   0 0   0   0   0 0   0   0   0 0   0   0   0 0   0   0   0 0   0    
-
-  5  11    25            53
-
-  1  2     3             4  */
