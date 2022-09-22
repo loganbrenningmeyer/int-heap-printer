@@ -1,6 +1,6 @@
 # C Int Heap Printer
 
-Prints int arrays as heaps with nodes connected by / \\%n
+Prints int arrays as heaps with nodes connected by / \\ 
 Large arrays make nice fractals
 
 
