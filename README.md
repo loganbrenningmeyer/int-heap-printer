@@ -1,4 +1,4 @@
-# c-int-heap-printer
+# C Int Heap Printer
 
 Prints int arrays as heaps with nodes connected by / \\
 Large arrays make nice fractals
