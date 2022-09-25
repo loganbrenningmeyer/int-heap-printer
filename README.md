@@ -4,7 +4,7 @@ Prints int arrays as heaps with nodes connected by / \\
 
 Large arrays make nice fractals
 
-Works best with 2-digit numbers in the range (-100, 100]
+Works best with numbers in the range (-100, 100]
   - Lots of 3-digit numbers can bunch together at the leaf nodes and be hard to differentiate
     - Negative 2-digit numbers technically take up 3 spaces. However, negative leaf nodes are formatted so that branches always point to their negative sign (-) or first digit. That way, numbers in the range (-100, 100] are always properly formatted and distinguishable at leaf nodes
 
