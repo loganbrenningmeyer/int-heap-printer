@@ -30,27 +30,30 @@ void printHeap(int *array, int size) {
     //Print leaf nodes
     printNodes(array, height, 0, size);
 }
-
-//array[(int)pow(2, height - row) - 1 + i] way to index array through row
+//Where numNodes = 2^(height-row) - 1
+//numNodes = (1 << (height-row)) - 1
+//array[numNodes + i] way to index array through row
 void printNodes(int *array, int height, int row, int size) {
     int spaceWidth = 0;
+    //Represents number of nodes preceding the row currently being printed
+    int numNodes = (1 << (height - row)) - 1;
 
     if (row != 0) printf("%*c", getFromLeft(row), ' ');
-    for (int i = 0; i < pow(2, height - row); i++) {    
+    for (int i = 0; i < numNodes + 1; i++) {    
         //if not all leaf nodes full, break
-        if ((int)pow(2, height - row) - 1 + i >= size) break;
-        printf("%d", array[(int)pow(2, height - row) - 1 + i]);
+        if (numNodes + i >= size) break;
+        printf("%d", array[numNodes + i]);
         if (i != (int)pow(2, height - row) - 1) {
             //For row 1 (second to bottom row)
             //Even rows (0, 2,...2n) are spaced by 5 minus the length of the previous value exceeding 1, odd rows spaced by 7
             if (row == 1) {
                 if (i % 2 == 0) {
-                    spaceWidth += 5 - (getLength(array[(int)pow(2, height - row) - 1 + i]) - 1);
+                    spaceWidth += 5 - (getLength(array[numNodes + i]) - 1);
                     if (spaceWidth > 0) printf("%*c", spaceWidth, ' ');
                     spaceWidth = 0;
                     continue;
                 } else {
-                    spaceWidth += 7 - (getLength(array[(int)pow(2, height - row) - 1 + i]) - 1);
+                    spaceWidth += 7 - (getLength(array[numNodes + i]) - 1);
                     if (spaceWidth > 0) printf("%*c", spaceWidth, ' ');
                     spaceWidth = 0;
                     continue;
@@ -64,9 +67,9 @@ void printNodes(int *array, int height, int row, int size) {
                 int nextSpace = 0;
 
                 if ((i - 1) % 4 == 0) {
-                    spaceWidth += 1 - (getLength(array[(int)pow(2, height - row) + i - 1]) - 1);
+                    spaceWidth += 1 - (getLength(array[numNodes + i]) - 1);
                     //Check if next value is negative, if there's room to make room then add a space
-                    if ((array[(int)pow(2, height - row) + i] < 0 || array[(int)pow(2, height - row) + i] >= 100) && spaceWidth - 1 > 0) {
+                    if ((array[numNodes + i + 1] < 0 || array[numNodes + i + 1] >= 100) && spaceWidth - 1 > 0) {
                         spaceWidth--;
                         nextSpace = 1;
                     }
@@ -74,9 +77,9 @@ void printNodes(int *array, int height, int row, int size) {
                     spaceWidth = nextSpace;
                     continue;
                 } else {
-                    spaceWidth += 3 - (getLength(array[(int)pow(2, height - row) + i - 1]) - 1);
+                    spaceWidth += 3 - (getLength(array[numNodes + i]) - 1);
                     //Check if next value is negative, if there's room to make room then add a space
-                    if ((array[(int)pow(2, height - row) + i] < 0 || array[(int)pow(2, height - row) + i] >= 100) && spaceWidth > 0) {
+                    if ((array[numNodes + i + 1] < 0 || array[numNodes + i + 1] >= 100) && spaceWidth > 0) {
                         spaceWidth--;
                         nextSpace = 1;
                     }
@@ -85,7 +88,7 @@ void printNodes(int *array, int height, int row, int size) {
                     continue;
                 }
             }
-            printf("%*c", getInnerSpace(getFromLeft(row)) - (getLength(array[(int)pow(2, height - row) - 1 + i]) - 1), ' ');
+            printf("%*c", getInnerSpace(getFromLeft(row)) - (getLength(array[numNodes + i]) - 1), ' ');
         }
     }
     printf("\n");
@@ -96,7 +99,7 @@ void printSlashes(int height, int row, int size) {
         if (height > 1) {
             int count = 0;
             printf(" ");
-            for (int i = pow(2, height) - 1; i < size; i++) {
+            for (int i = (1 << height) - 1; i < size; i++) {
                 if (count % 2 == 0) {
                     printf("/ ");
                 } else {
@@ -123,7 +126,7 @@ void printSlashes(int height, int row, int size) {
         printf("/");
         printf("%*c", 2*(i-1) + 1, ' '); 
         printf("\\");
-        for (int j = 0; j < pow(2, height-row)-1; j++) {
+        for (int j = 0; j < (1 << (height-row)) - 1; j++) {
             printf("%*c", getFromLeft(row+1) + 1 - i*2, ' '); 
             printf("/");
             printf("%*c", 2*(i-1) + 1, ' '); 
